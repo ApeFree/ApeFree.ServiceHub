@@ -1,4 +1,4 @@
-﻿using ApeFree.ServiceDiscovery.Entities;
+﻿using ApeFree.ServiceHub.Entities;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -6,15 +6,15 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace ApeFree.ServiceDiscovery.RouteHandler
+namespace ApeFree.ServiceHub.RouteHandler
 {
-    public class RegistrationHandler : IRouteHandler
+    public class RegisterHandler : IRouteHandler
     {
         public BaseResponse RequestHandler(RequestDispatcher service, HttpListenerContext context)
         {
             var request = context.Request;
             var response = context.Response;
-            var result = new RegistationResponse();
+            var result = new RegisterResponse();
             result.Success = true;
             try
             {
@@ -22,11 +22,11 @@ namespace ApeFree.ServiceDiscovery.RouteHandler
                 var bodyBytes = RequestHandlerHelper.ReadRequestBody(request);
                 var d = Encoding.UTF8.GetString(bodyBytes);
                 //处理请求
-                var registationRequest = JsonConvert.DeserializeObject<RegistationRequest>(Encoding.UTF8.GetString(bodyBytes));
-                if (registationRequest != null)
+                var registerRequest = JsonConvert.DeserializeObject<RegisterRequest>(Encoding.UTF8.GetString(bodyBytes));
+                if (registerRequest != null)
                 {
-                    registationRequest.IPAddress = request.Url.ToString();
-                    result.Signs = service.RegisterRequestHandler?.Invoke(registationRequest);
+                    registerRequest.IPAddress = request.Url.ToString();
+                    result.Signs = service.RegisterRequestHandler?.Invoke(registerRequest);
                 }
                 else
                 {

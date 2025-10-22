@@ -1,4 +1,4 @@
-﻿using ApeFree.ServiceDiscovery.Entities;
+﻿using ApeFree.ServiceHub.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,8 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace ApeFree.ServiceDiscovery
+namespace ApeFree.ServiceHub
 {
+    /// <summary>
+    /// 服务发现客户端
+    /// </summary>
     public class ServiceDiscoveryClient
     {
         private ClientInfo Info;
@@ -52,15 +55,15 @@ namespace ApeFree.ServiceDiscovery
             udpClient.Send(bytes, bytes.Length, serviceIPAddress);
         }
 
-        public async Task<RegistationResponse> Register(List<ServiceInfo> servicesInfoList)
+        public async Task<RegisterResponse> Register(List<ServiceInfo> servicesInfoList)
         {
-            var reuqest = new RegistationRequest()
+            var reuqest = new RegisterRequest()
             {
                 ServiceInfoList = servicesInfoList,
                 ClientInfo = Info
             };
 
-            var response = await httpClient.PostAsync<RegistationResponse>("Registration", reuqest);
+            var response = await httpClient.PostAsync<RegisterResponse>("Register", reuqest);
 
             if (response.Success)
             {
@@ -69,15 +72,22 @@ namespace ApeFree.ServiceDiscovery
             return response;
         }
 
-        public void UnRegister(string nodeId)
+        /// <summary>
+        /// 注销服务
+        /// </summary>
+        /// <param name="nodeId"></param>
+        public void Unregister(string nodeId)
         {
             ServicesInfoList.Remove(nodeId);
         }
 
-
-
-
-        public async Task<DiscoveryResponse> Discovery(string sign, DiscoveryType type = DiscoveryType.Name)
+        /// <summary>
+        /// 服务发现
+        /// </summary>
+        /// <param name="sign"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public async Task<DiscoveryResponse> Discovery(string sign, DiscoveryType type)
         {
             var request = new DiscoveryRequest()
             {

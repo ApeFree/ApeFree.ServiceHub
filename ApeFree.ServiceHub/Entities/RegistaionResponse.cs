@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApeFree.ServiceDiscovery.Entities
+namespace ApeFree.ServiceHub.Entities
 {
     public class BaseResponse
     {

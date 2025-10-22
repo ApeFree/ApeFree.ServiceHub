@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ApeFree.ServiceDiscovery.Entities
+namespace ApeFree.ServiceHub.Entities
 {
-    public class RegistationRequest
+    public class RegisterRequest
     {
         public List<ServiceInfo> ServiceInfoList { get; set; }
 

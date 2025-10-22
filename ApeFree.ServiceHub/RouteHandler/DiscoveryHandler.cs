@@ -1,10 +1,10 @@
-﻿using ApeFree.ServiceDiscovery.Entities;
+﻿using ApeFree.ServiceHub.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Text;
 
-namespace ApeFree.ServiceDiscovery.RouteHandler
+namespace ApeFree.ServiceHub.RouteHandler
 {
     public class DiscoveryHandler : IRouteHandler
     {

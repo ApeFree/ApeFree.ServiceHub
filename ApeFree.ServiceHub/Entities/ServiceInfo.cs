@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace ApeFree.ServiceDiscovery.Entities
+namespace ApeFree.ServiceHub.Entities
 {
     /// <summary>
     /// 服务信息

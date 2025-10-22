@@ -5,36 +5,51 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 
-namespace ApeFree.ServiceDiscovery
+namespace ApeFree.ServiceHub
 {
+    /// <summary>
+    /// UDP心跳监听器
+    /// </summary>
     public class UdpHeartbeatListener
     {
+        /// <summary>
+        /// UDP客户端
+        /// </summary>
+        private UdpClient udpClient;
+
+        /// <summary>
+        /// 端口号
+        /// </summary>
         public int Port { get; private set; }
 
-        private UdpClient client;
-
-
+        /// <summary>
+        /// 心跳处理程序
+        /// </summary>
         public EventHandler<byte[]> HeartbeatHandler;
+
         public UdpHeartbeatListener(int port)
         {
             Port = port;
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, port);
-            client = new UdpClient(RemoteIpEndPoint);
+            udpClient = new UdpClient(RemoteIpEndPoint);
         }
 
+        /// <summary>
+        /// 启动监听
+        /// </summary>
         public void Start()
         {
-            client.BeginReceive(EndReceive, client);
-        }
+            udpClient.BeginReceive(EndReceive, udpClient);
 
-        private void EndReceive(IAsyncResult ar)
-        {
-            var udpclient = ar.AsyncState as UdpClient;
-            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
-            byte[] receivedBytes = udpclient.EndReceive(ar, ref remoteEP); // 获取接收到的数据
+            void EndReceive(IAsyncResult ar)
+            {
+                var client = ar.AsyncState as UdpClient;
+                var remoteEP = new IPEndPoint(IPAddress.Any, 0);
+                byte[] receivedBytes = client.EndReceive(ar, ref remoteEP); // 获取接收到的数据
 
-            HeartbeatHandler?.Invoke(this, receivedBytes);
-            udpclient.BeginReceive(EndReceive, udpclient);
+                HeartbeatHandler?.Invoke(this, receivedBytes);
+                client.BeginReceive(EndReceive, client);
+            }
         }
     }
 }

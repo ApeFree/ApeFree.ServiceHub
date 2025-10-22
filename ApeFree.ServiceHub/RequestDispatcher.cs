@@ -5,11 +5,11 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
-using ApeFree.ServiceDiscovery.Entities;
-using ApeFree.ServiceDiscovery.RouteHandler;
+using ApeFree.ServiceHub.Entities;
+using ApeFree.ServiceHub.RouteHandler;
 using Newtonsoft.Json;
 
-namespace ApeFree.ServiceDiscovery
+namespace ApeFree.ServiceHub
 {
     /// <summary>
     /// 请求分发器
@@ -32,7 +32,7 @@ namespace ApeFree.ServiceDiscovery
         /// <summary>
         /// 注册请求处理事件
         /// </summary>
-        public Func<RegistationRequest, Dictionary<string, string>> RegisterRequestHandler;
+        public Func<RegisterRequest, Dictionary<string, string>> RegisterRequestHandler;
 
         /// <summary>
         ///  发现请求处理事件
@@ -71,7 +71,7 @@ namespace ApeFree.ServiceDiscovery
         /// </summary>
         /// <param name="route"></param>
         /// <param name="handler"></param>
-        public void AddPrefixe(string route, IRouteHandler handler)
+        public void AddPrefix(string route, IRouteHandler handler)
         {
             var url = $"http://{Address}:{Port}/{route}/";
             httpListener.Prefixes.Add(url);  //监听的是以item.Key + "/"+XXX接口

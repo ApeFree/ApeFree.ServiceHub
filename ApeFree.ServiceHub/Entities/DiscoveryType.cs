@@ -1,4 +1,4 @@
-﻿namespace ApeFree.ServiceDiscovery.Entities
+﻿namespace ApeFree.ServiceHub.Entities
 {
     public enum DiscoveryType
     {
