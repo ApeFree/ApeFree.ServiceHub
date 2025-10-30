@@ -15,13 +15,13 @@ namespace ApeFree.ServiceHub
     /// <summary>
     /// 服务发现客户端
     /// </summary>
-    public class ServiceDiscoveryClient
+    public class ServiceDiscoveryClient : IDisposable
     {
         private ClientInfo Info;
         private UdpClient udpClient;
-        private Dictionary<string, string> ServicesInfoList;
-        private Timer heartbeatTimer;
         private HttpClient httpClient;
+        private Timer heartbeatTimer;
+        private Dictionary<string, string> ServicesInfoList;
         private IPEndPoint serviceIPAddress;
 
         public ServiceDiscoveryClient(string ipAddress, int httpPort = 4555, int udpPort = 4556)
@@ -39,6 +39,7 @@ namespace ApeFree.ServiceHub
             serviceIPAddress = new IPEndPoint(IPAddress.Parse(ipAddress), udpPort);
 
             udpClient = new UdpClient();
+
             heartbeatTimer = new Timer();
             heartbeatTimer.Elapsed += HeartbeatTimer_Elapsed;
             heartbeatTimer.Start();
@@ -55,21 +56,21 @@ namespace ApeFree.ServiceHub
             udpClient.Send(bytes, bytes.Length, serviceIPAddress);
         }
 
-        public async Task<RegisterResponse> Register(List<ServiceInfo> servicesInfoList)
+        public async Task<RegisterResponse> Register(ServiceInfo[] servicesInfoList)
         {
-            var reuqest = new RegisterRequest()
+            var req = new RegisterRequest()
             {
                 ServiceInfoList = servicesInfoList,
                 ClientInfo = Info
             };
 
-            var response = await httpClient.PostAsync<RegisterResponse>("Register", reuqest);
+            var resp = await httpClient.PostAsync<RegisterResponse>("Register", req);
 
-            if (response.Success)
+            if (resp.Success)
             {
-                response.Signs.ForEach(x => ServicesInfoList.Add(x.Key, x.Value));
+                resp.Signs.ForEach(x => ServicesInfoList.Add(x.Key, x.Value));
             }
-            return response;
+            return resp;
         }
 
         /// <summary>
@@ -96,6 +97,16 @@ namespace ApeFree.ServiceHub
             };
 
             return await httpClient.PostAsync<DiscoveryResponse>("Discovery", request);
+        }
+
+        public void Dispose()
+        {
+            (udpClient as IDisposable).Dispose();
+            httpClient.Dispose();
+
+            heartbeatTimer.Elapsed -= HeartbeatTimer_Elapsed;
+            heartbeatTimer.Stop();
+            heartbeatTimer.Dispose();
         }
     }
 }
