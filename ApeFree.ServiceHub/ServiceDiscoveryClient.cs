@@ -99,8 +99,14 @@ namespace ApeFree.ServiceHub
             return await httpClient.PostAsync<DiscoveryResponse>("Discovery", request);
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
+            foreach (var nodeId in ServicesInfoList.Keys.ToArray())
+            {
+                Unregister(nodeId);
+            }
+
             (udpClient as IDisposable).Dispose();
             httpClient.Dispose();
 
