@@ -6,8 +6,12 @@ using System.Text;
 
 namespace ApeFree.ServiceHub.RouteHandler
 {
+    /// <summary>
+    /// 服务发现路由处理器
+    /// </summary>
     public class DiscoveryHandler : IRouteHandler
     {
+        /// <inheritdoc/>
         public BaseResponse RequestHandler(RequestDispatcher service, HttpListenerContext context)
         {
             var request = context.Request;

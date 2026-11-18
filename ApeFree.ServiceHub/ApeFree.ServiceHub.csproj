@@ -18,7 +18,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>ApeFree_64px.png</PackageIcon>
 
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
 	</PropertyGroup>

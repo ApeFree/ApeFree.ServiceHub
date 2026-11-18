@@ -8,8 +8,12 @@ using System.Text;
 
 namespace ApeFree.ServiceHub.RouteHandler
 {
+    /// <summary>
+    /// 服务注册路由处理器
+    /// </summary>
     public class RegisterHandler : IRouteHandler
     {
+        /// <inheritdoc/>
         public BaseResponse RequestHandler(RequestDispatcher service, HttpListenerContext context)
         {
             var request = context.Request;

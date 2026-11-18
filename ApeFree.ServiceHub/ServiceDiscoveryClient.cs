@@ -24,6 +24,12 @@ namespace ApeFree.ServiceHub
         private Dictionary<string, string> ServicesInfoList;
         private IPEndPoint serviceIPAddress;
 
+        /// <summary>
+        /// 构造服务发现客户端
+        /// </summary>
+        /// <param name="ipAddress">中心服务IP地址</param>
+        /// <param name="httpPort">中心服务HTTP端口</param>
+        /// <param name="udpPort">中心服务UDP端口</param>
         public ServiceDiscoveryClient(string ipAddress, int httpPort = 4555, int udpPort = 4556)
         {
             httpClient = new HttpClient();
@@ -56,6 +62,11 @@ namespace ApeFree.ServiceHub
             udpClient.Send(bytes, bytes.Length, serviceIPAddress);
         }
 
+        /// <summary>
+        /// 向中心注册服务
+        /// </summary>
+        /// <param name="servicesInfoList">服务信息数组</param>
+        /// <returns>注册响应</returns>
         public async Task<RegisterResponse> Register(ServiceInfo[] servicesInfoList)
         {
             var req = new RegisterRequest()

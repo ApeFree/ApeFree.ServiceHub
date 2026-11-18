@@ -29,6 +29,12 @@ namespace ApeFree.ServiceHub
         /// </summary>
         public int HeartbeatTime { get; set; } = 10000;
 
+        /// <summary>
+        /// 构造发现服务实例
+        /// </summary>
+        /// <param name="address">监听主机地址</param>
+        /// <param name="httpPort">HTTP监听端口</param>
+        /// <param name="udpPort">UDP心跳端口</param>
         public DiscoveryService(string address, int httpPort = 4555, int udpPort = 4556)
         {
             Address = address;

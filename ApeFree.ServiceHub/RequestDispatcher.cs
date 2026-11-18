@@ -44,6 +44,11 @@ namespace ApeFree.ServiceHub
         /// </summary>
         private Dictionary<string, IRouteHandler> routes = new Dictionary<string, IRouteHandler>();
 
+        /// <summary>
+        /// 构造请求分发器
+        /// </summary>
+        /// <param name="address">监听主机地址</param>
+        /// <param name="port">监听端口</param>
         public RequestDispatcher(string address, int port)
         {
             httpListener = new HttpListener();

@@ -4,8 +4,14 @@ using System.Text;
 
 namespace ApeFree.ServiceHub.Entities
 {
-    public class RegisterResponse:BaseResponse
+    /// <summary>
+    /// 服务注册响应
+    /// </summary>
+    public class RegisterResponse : BaseResponse
     {
-        public Dictionary<string,string> Signs { get; set; }
+        /// <summary>
+        /// 注册标识字典
+        /// </summary>
+        public Dictionary<string, string> Signs { get; set; }
     }
 }

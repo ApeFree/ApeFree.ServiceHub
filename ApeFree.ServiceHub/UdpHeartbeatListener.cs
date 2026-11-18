@@ -27,6 +27,10 @@ namespace ApeFree.ServiceHub
         /// </summary>
         public EventHandler<byte[]> HeartbeatHandler;
 
+        /// <summary>
+        /// 构造UDP心跳监听器
+        /// </summary>
+        /// <param name="port">监听端口</param>
         public UdpHeartbeatListener(int port)
         {
             Port = port;
